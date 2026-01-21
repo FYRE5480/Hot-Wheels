@@ -1,14 +1,14 @@
 package frc.robot.util;
 
+import com.revrobotics.PersistMode;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -95,11 +95,10 @@ public class SwerveModule extends SubsystemBase {
 
         swerveConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            .pidf(
+            .pid(
                 DriveConstants.swerveP,
                 DriveConstants.swerveI,
-                DriveConstants.swerveD,
-                DriveConstants.swerveFF
+                DriveConstants.swerveD
             ).iZone(0)
             .outputRange(-1, 1);
 
@@ -138,7 +137,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public void setSwerveReference(double value) {
-        swervePID.setReference(value, ControlType.kPosition);
+        swervePID.setSetpoint(value, ControlType.kPosition);
     }
 
 
@@ -244,7 +243,7 @@ public class SwerveModule extends SubsystemBase {
         SwerveAngleSpeed absoluteTarget = getAbsoluteTarget(targetAngle, currentAngle);
 
         if (rotate) {
-            swervePID.setReference(absoluteTarget.targetAngle, SparkMax.ControlType.kPosition);
+            swervePID.setSetpoint(absoluteTarget.targetAngle, SparkMax.ControlType.kPosition);
         }
 
         setMotorSpeed(

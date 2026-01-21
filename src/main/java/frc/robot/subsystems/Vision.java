@@ -17,6 +17,7 @@ import frc.robot.util.CameraWebsocketClient;
 import frc.robot.util.CameraWebsocketClient.Apriltag;
 import frc.robot.util.CameraWebsocketClient.Info;
 
+import java.lang.ref.Cleaner;
 
 public class Vision {
     public static enum Side {FRONT, LEFT, BACK, RIGHT}
@@ -30,6 +31,9 @@ public class Vision {
     private PIDController movePID = new PIDController(Constants.VisionConstants.moveP, Constants.VisionConstants.moveI, Constants.VisionConstants.moveD);
     private ChassisSpeeds prevChassisSpeeds;
     private double prevTime;
+
+    private final Cleaner cleaner = Cleaner.create();
+    private final Cleaner.Cleanable cleanable;
 
     public static class CameraPair{
         public int cam1;
@@ -90,6 +94,8 @@ public class Vision {
             }
         }
 
+        this.cleanable = cleaner.register(this, cleanCams(camClientList));
+
         turnPID.enableContinuousInput(-180, 180);
         turnPID.setSetpoint(0);
         movePID.enableContinuousInput(-180, 180);
@@ -103,6 +109,8 @@ public class Vision {
                 camClientList.add(newCam);
             }
         }
+
+        this.cleanable = cleaner.register(this, cleanCams(camClientList));
 
         // Erm, what the sigma? IS this corect? I think it is but I am not sure
         turnPID.enableContinuousInput(-180, 180);
@@ -130,7 +138,6 @@ public class Vision {
             default:
                 return inSpeeds;
           }
-          
     }
 
     public double getZAngle(int maxTags) {
@@ -369,16 +376,14 @@ public class Vision {
     public Info getInfo() {
         return camClientList.get(0).getInfo();
     }
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            for (CameraWebsocketClient cam : camClientList) {
-                if (cam.isConnected()) {
-                    cam.disconnect();
-                }
+    
+    private static Runnable cleanCams(final ArrayList<CameraWebsocketClient> cams) {
+    return () -> {
+        for (CameraWebsocketClient cam : cams) {
+            if (cam.isConnected()) {
+                cam.disconnect();
             }
-        } finally {
-            super.finalize();
         }
-    }
+    };
+  }
 }
