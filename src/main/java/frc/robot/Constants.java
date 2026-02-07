@@ -4,12 +4,9 @@
 
 package frc.robot;
 
-import java.util.HashMap;
-
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.Vision;
 import frc.robot.util.Elastic.Notification;
 import frc.robot.util.Elastic.Notification.NotificationLevel;
 
@@ -144,44 +141,4 @@ public final class Constants {
 		public static final int driverControllerPort = 1;
 		public static final int operatorControllerPort = 0;
 	}
-
-
-    /** A set of constants relating to vision. */
-    public static class VisionConstants {
-        public static final String ipAddress = "ws://10.54.80.123";
-        public static final int[] CameraRotations = {0, 0, 0};
-        public static final String[] tagIDs = {"1", "2", "12", "13", "6", "7", "8", "9", "10", "11", "17", "18", "19", "20", "21", "22"};
-        public static HashMap<String, Integer> apriltagAngles = new HashMap<>();
-        public static final double maxIntakeAngle = Math.PI/6;
-        public static final double misallignedPieceOffset = Math.PI/12; // This is the angle to go at when the piece is misaligned and 1m away. It will be adjusted automatically for different angles.
-        public static final int pieceDetectionCamIndex = 0; // Default camera index for piece detection
-
-        // Positive x is away from reef, positive y is to left of reef
-        public static Vision.RobotPositionOffset straightOffset = new Vision.RobotPositionOffset(0.25, 0, 0);
-        public static Vision.RobotPositionOffset leftOffset = new Vision.RobotPositionOffset(0.25, 0.08, 0);
-        public static Vision.RobotPositionOffset rightOffset = new Vision.RobotPositionOffset(0.25, -0.2, 0);
-
-        public static double CoralYOffset = 0;
-        public static double CoralXOffset = 0;
-        public static double CoralAngleOffset = 0;
-        public static int CoralCamIndex = 0;
-
-        public static final double turnP = 20;
-        public static final double turnI = 0.02;
-        public static final double turnD = 0.02;
-
-        public static final double moveP = 10.05;
-        public static final double moveI = 0.0;
-        public static final double moveD = 0.0;
-
-        public static Vision.CameraPair cameraPair = new Vision.CameraPair(0, Math.PI/6+0.165,0.22, 0.005, 1, -Math.PI/6 - 0.08015, 0.3541, 0.11627);
-        /** Constructs apriltags angles hashmap. */
-        public VisionConstants() {
-            apriltagAngles.put("13", 0);
-            apriltagAngles.put("tag2", 45);
-            apriltagAngles.put("tag3", 60);
-            apriltagAngles.put("tag4", 90);
-        }
-    }
-
 }

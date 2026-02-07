@@ -5,7 +5,7 @@ This is a template repository meant to be used for a new year's robot code. It c
 * our custom swerve code
 * a dashboard setup ([Elastic](https://frc-elastic.gitbook.io/docs))
 * the ability to load and follow [Choreo](https://choreo.autos) trajectories
-* integration with our custom vision processing software, [Astrolabe](https://github.com/MaxedPC08/Astrolabe)
+* ~~integration with our custom vision processing software, [Astrolabe](https://github.com/MaxedPC08/Astrolabe)~~
 
 Before using it is **crucial** that you ensure that all constants in `Constants.java` are correct, the template currently contains placeholders. Values will obviously vary from robot to robot. The most important things to check are the PID values, feedforward values, and the absolute offsets. You will also need to update WPI and all of the libraries that the code uses to the current year. Most of this can be done by using the `WPILib: Import a project` feature. 
 

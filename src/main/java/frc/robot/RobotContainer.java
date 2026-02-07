@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Vision;
 import frc.robot.util.Auto;
 import frc.robot.util.ControllerInput;
 
@@ -35,12 +34,8 @@ public class RobotContainer {
 	PowerDistribution powerDistribution = new PowerDistribution(16, ModuleType.kRev);
 
 	ControllerInput controller = new ControllerInput(xboxController, joystick);
-	Vision visionSystem = new Vision(
-        Constants.VisionConstants.ipAddress, 
-        Constants.VisionConstants.CameraRotations, 
-        null); 
 
-	Swerve swerve = new Swerve(controller, visionSystem);
+	Swerve swerve = new Swerve(controller);
 
 	final AutoChooser autoChooser;
     Auto auto = new Auto(swerve);

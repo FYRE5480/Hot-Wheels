@@ -18,11 +18,8 @@ public class ControllerInput extends SubsystemBase {
     /** Enumeration to represent what the robot should be doing with vision. */
     public enum VisionStatus {
         NONE,
-        LEFT_POSITION,
-        RIGHT_POSITION,
-        STRAIGHT_POSITION,
         LOCKON,
-        CORAL,
+        // add your stuff here
     }
 
     private double x, y, theta, slider;
@@ -72,9 +69,7 @@ public class ControllerInput extends SubsystemBase {
 
         slider = (joystick.getRawAxis(3) + 1) / 2;
         
-        if (leftBumper && rightBumper) visionStatus = VisionStatus.STRAIGHT_POSITION;
-        else if (leftBumper) visionStatus = VisionStatus.LEFT_POSITION;
-        else if (rightBumper) visionStatus = VisionStatus.RIGHT_POSITION;
+        if (leftBumper && rightBumper) visionStatus = VisionStatus.LOCKON;
         else visionStatus = VisionStatus.NONE;
 
         // rightBumper && leftBumper) visionStatus = VisionStatus.STRAIGHT_POSITION;
